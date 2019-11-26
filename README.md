@@ -1,6 +1,7 @@
 # broadlink_app
 
 AppDaemon App For use with Broadlink. With this app, all Broadlink devices on the same network can be controlled
+created together with @odianosen25
 
 ## installation
 - This app requires appdaemon 4.0 pre installed
