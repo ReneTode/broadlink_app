@@ -4,6 +4,7 @@ AppDaemon App For use with Broadlink. With this app, all Broadlink devices on th
 
 ## installation
 - This app requires appdaemon 4.0 pre installed
+- this app requires that the broadlink package ( https://github.com/mjg59/python-broadlink ) is installed
 - Copy this python file to your apps directory
 - Configure a yaml file (apps.yaml or any other yaml file in the apps directory) as shown below
 
