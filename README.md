@@ -37,7 +37,7 @@ AppDaemon App For use with Broadlink. With this app, all Broadlink devices on th
 #### inside use_temp_as_attribute:
 - update_frequence (optional, default 60): the frequency with which the temperature attribute will be updated
 
-example config can be seen below:
+### example config can be seen below:
 ```
 broadlink_app:
     class: BroadlinkApp
@@ -67,7 +67,7 @@ broadlink_app:
         philips_sb_audio_in: 2663 860 472 832 472 416 472 416 1332 1304 472 416 472 416 916 860 472 416 472 416 472 416 916 860 472 416 472 416 472 416 916 416 472 832 361
 ```
 
-available services:
+## available services:
 - setup_broadlink                                                 ,returns True or False
 - learn                  (expects entity_id="broadlink_entity_id") returns True or False
 - sweep_frequency        (expects entity_id="broadlink_entity_id") returns True or False
@@ -79,7 +79,7 @@ available services:
 - check_temperature      (expects entity_id="broadlink_entity_id") returns temperature or False
 - check_sensors          (expects entity_id="broadlink_entity_id") returns sensor data or False
 
-example use:
+#### example use:
 ```
 controle_value = self.call_service("broadlink_living_room/learn", entity_id = "sensor.living_room")
 controle_value = self.call_service("broadlink_living_room/send_data", entity_id = "sensor.living_room", data_packet = lg_tv_hdmi_1)
