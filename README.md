@@ -7,8 +7,8 @@ AppDaemon App For use with Broadlink. With this app, all Broadlink devices on th
 - Copy this python file to your apps directory
 - Configure a yaml file (apps.yaml or any other yaml file in the apps directory) as shown below
 
-apps.yaml parameters:
-### toplevel:
+## apps.yaml parameters:
+#### toplevel:
 - local_ip (optional, default None): The local IP of the system running AD. Only important in a docker container
 - broadlinks: (not optional): A dictionay definition of the name and mac address of each broadlink device
 - base64 (optional): A dictionay definition of names and ir codes to be used, encoded as base64
@@ -16,10 +16,10 @@ apps.yaml parameters:
 - pronto (optional): A diction aydefinition of names and ir codes to be used, encoded as pronto
 - hex (optional): A dictionay definition of names and ir codes to be used, encoded as hex
 
-inside broadlinks:
+#### inside broadlinks:
 - specify a name for every broadlink
 
-inside the specified name:
+#### inside the specified name:
 - mac: (not optional) the mac address from the broadlink device
 - friendly_name (optional, default broadlink name)
 - entity_domain (optional, default sensor): The domain to be used when defining the entities to be created
@@ -28,13 +28,13 @@ inside the specified name:
 - use_sensor_for_temperature: (optional): A dictionay definition of the name and update frequency for a temperature sensor
 - use_temp_as_attribute: (optional, False or empty) set the temperature as attribute from the broadlink device
 
-inside use_sensor_for_temperature:
+#### inside use_sensor_for_temperature:
 - update_frequence (optional, default 60): the frequency with which the temperature sensor will be updated
 - name: (optional, default sensor.broadlink_name_temperature) the name for the temperature sensor
 - friendly_name (optional, default broadlink_name_temperature) friendly name for the temperature sensor
 - Unit_of_measurement (optional, default C) unit of measurement for the temperature sensor
 
-inside use_temp_as_attribute:
+#### inside use_temp_as_attribute:
 - update_frequence (optional, default 60): the frequency with which the temperature attribute will be updated
 
 example config can be seen below:
