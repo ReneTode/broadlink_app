@@ -170,10 +170,7 @@ class Broadlink_App(ad.ADBase):
             self.adbase.error(traceback.format_exc())
             return False
 
-    def send_data(self, kwargs):
-        entity_id = kwargs.get("entity_id")
-        data_packet = kwargs.get("data_packet")
-        protocol = kwargs.get("protocol")
+    def send_data(self, entity_id, data_packet, protocol = None):
         self._check_broadlink(entity_id)
 
         if data_packet in self.args.get("base64", {}):
