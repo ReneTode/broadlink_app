@@ -101,7 +101,7 @@ class Broadlink_App(ad.ADBase):
         try:
             self.broadlinkObjects[entity_id].enter_learning()
             domain, name = entity_id.split(".")
-            learn_time = self.get(self.args["broadlinks"][name]["learn_time"], 5)
+            learn_time = self.args["broadlinks"][name].get("learn_time", 5)
             self.adbase.run_in(self.check_data_cb, learn_time, entity_id=entity_id)
             return True
         except:
@@ -146,7 +146,7 @@ class Broadlink_App(ad.ADBase):
         self.adbase.log(f"Broadlink device with Entity_ID {entity_id} searching for RF packet...")
         try:
             self.broadlinkObjects[entity_id].find_rf_packet()
-            learn_time = self.get(self.args["broadlinks"][name]["learn_time"], 5)
+            learn_time = self.args["broadlinks"][name].get("learn_time", 5)
             self.adbase.run_in(self.check_data_cb, learn_time, entity_id=entity_id)
             return True
         except:
