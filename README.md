@@ -23,6 +23,7 @@ created together with @Odianosen25 (https://github.com/Odianosen25)
 
 #### inside the specified name:
 - mac: (not optional) the mac address from the broadlink device
+- learn_time: (optional, default 5) the time that AD waits for a packet to return
 - friendly_name (optional, default broadlink name)
 - entity_domain (optional, default sensor): The domain to be used when defining the entities to be created
 - service_domain (optional, default broadlink): The domain from the services
