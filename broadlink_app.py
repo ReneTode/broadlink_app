@@ -12,6 +12,7 @@ apps.yaml parameters:
 | - entity_domain (optional, default sensor): The domain to be used when defining the entities to be created
 | - service_domain (optional, default broadlink): The domain from the services
 | - namespace (optional, default default): The namespace in which the entities and services are created
+| - learn_time (optional, default 5): the time that AD listens for a data packet to return
 | - use_sensor_for_temperature: (optional, default False): A dictionay definition of the name and update frequency for a temperature sensor
 | - update_frequence (optional, default 60): the frequency with which the temperature attribute or sensor will be updated
 | - name: (optional, default sensor.broadlink_name_temperature) the name for the temperature sensor
@@ -31,6 +32,7 @@ apps.yaml parameters:
 | -         living_room:
 | -             mac: xx:xx:xx:xx:xx:xx
 | -             namespace: hass
+| -             learn_time: 20
 | -             entity_domain: sensor
 | -             service_domain: living_room
 | -             friendly_name: Broadlink living room
@@ -98,7 +100,9 @@ class Broadlink_App(ad.ADBase):
         self.adbase.log(f"Broadlink device with Entity_ID {entity_id} Learning...")
         try:
             self.broadlinkObjects[entity_id].enter_learning()
-            self.adbase.run_in(self.check_data, 5, entity_id=entity_id)
+            domain, name = entity_id.split(".")
+            learn_time = self.get(self.args["broadlinks"][name]["learn_time"], 5)
+            self.adbase.run_in(self.check_data_cb, learn_time, entity_id=entity_id)
             return True
         except:
             self.adbase.log("Logged an error in errorlog")
@@ -139,19 +143,19 @@ class Broadlink_App(ad.ADBase):
 
     def find_rf_packet(self, entity_id):
         self._check_broadlink(entity_id)
+        self.adbase.log(f"Broadlink device with Entity_ID {entity_id} searching for RF packet...")
         try:
-            rf_packet = self.broadlinkObjects[entity_id].find_rf_packet()
-
-            if rf_packet != None:
-                rf_packet = base64.b64encode(rf_packet)
-            
-            self.adbase.log(f"{rf_packet}")
-
-            return rf_packet
+            self.broadlinkObjects[entity_id].find_rf_packet()
+            learn_time = self.get(self.args["broadlinks"][name]["learn_time"], 5)
+            self.adbase.run_in(self.check_data_cb, learn_time, entity_id=entity_id)
+            return True
         except:
             self.adbase.log("Logged an error in errorlog")
             self.adbase.error(traceback.format_exc())
             return False
+
+    def check_data_cb(self, kwargs):
+        self.check_data(kwargs["entity_id"])
 
     def check_data(self, entity_id):
         self._check_broadlink(entity_id)
@@ -264,7 +268,7 @@ class Broadlink_App(ad.ADBase):
             return False
     
     def _check_broadlink(self, entity_id):
-        if entity_id not in self.entities:
+        if not entity_id in self.broadlinkObjects:
             raise ValueError (f"Broadlink with Entity_ID {entity_id}, doesn't exist")
 
     def setup_broadlink_cb(self, kwargs):
@@ -360,7 +364,7 @@ class Broadlink_App(ad.ADBase):
         
         if self.entities != {}:
             self.adbase.fire_event("Broadlink_Setup", entities=self.entities)
-            self.adbase.log("Completed Broadlink Device setup now")
+            self.adbase.log("Completed Broadlink Device setup")
             return True
         
 
